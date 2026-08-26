@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#EE4D2D" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Shopee Link Converter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            shopee: {
+              DEFAULT: '#EE4D2D',
+              dark: '#c9381a',
+              light: '#ff6a3d'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen">
+
+  <header class="bg-gradient-to-br from-shopee via-[#f15b3a] to-[#ff8a5c] text-white">
+    <div class="max-w-2xl mx-auto px-4 pt-10 pb-20 text-center relative">
+      <button id="openSettings" title="Settings"
+        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 transition flex items-center justify-center">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      </button>
+
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/20 backdrop-blur mb-5 shadow-lg">
+        <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.93V16a1 1 0 112 0v.93c1.06-.13 2.02-.5 2.78-1.1l.73-1.02-1.63-1.17-.72 1.01a3.3 3.3 0 01-2.6 1.29c-1.34 0-2.14-.78-2.14-1.56 0-.9.81-1.19 2.16-1.53 1.67-.42 3.58-.9 3.58-2.93 0-1.56-1.14-2.6-2.85-2.9V7.07a1 1 0 10-2 0v.93c-.9.11-1.72.4-2.43.89l-.05.03-.97 1.35 1.5 1.08.97-1.36c.32-.23.68-.38 1.06-.47v2.6c-1.61.41-3.62.93-3.62 2.83 0 1.78 1.3 2.95 3.29 3.13z" />
+        </svg>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Shopee Link Converter</h1>
+      <p class="mt-3 text-white/90 max-w-md mx-auto text-sm sm:text-base">
+        Paste any Shopee link and get a commission-tracked link instantly. Click to shop, earn on every order.
+      </p>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 -mt-12 pb-44">
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-5 sm:p-6">
+      <label for="links" class="block text-sm font-semibold text-gray-700 mb-2">
+        Paste your Shopee links <span class="font-normal text-gray-400">(one per line)</span>
+      </label>
+      <textarea id="links" rows="6" spellcheck="false"
+        placeholder="https://shopee.sg/Product-Name-i.123456789.9876543210&#10;https://shopee.sg/product/123456789/9876543210&#10;https://shopee.sg/shop/71756544"
+        class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-shopee/50 focus:border-shopee transition"></textarea>
+      <button id="convert"
+        class="mt-4 w-full bg-shopee hover:bg-shopee-dark active:scale-[.98] transition text-white font-bold rounded-xl py-3.5 shadow-lg shadow-shopee/30">
+        Convert links
+      </button>
+    </div>
+
+    <div id="results" class="mt-6 space-y-3"></div>
+  </main>
+
+  <div id="stickyBar" class="hidden fixed bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]" style="padding-bottom: env(safe-area-inset-bottom);">
+    <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+      <div class="text-sm text-gray-600">
+        <span id="count" class="font-bold text-shopee">0</span> links ready
+      </div>
+      <button id="copyAll"
+        class="inline-flex items-center gap-2 bg-shopee hover:bg-shopee-dark transition text-white text-sm font-semibold rounded-xl px-5 py-2.5 shadow-md">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+        </svg>
+        Copy all
+      </button>
+    </div>
+  </div>
+
+  <div id="settingsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" data-close-settings></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-bold text-gray-800">Settings</h2>
+        <button data-close-settings class="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+      </div>
+      <label for="affiliateId" class="block text-sm font-semibold text-gray-700 mb-2">
+        Shopee Affiliate ID
+      </label>
+      <input id="affiliateId" type="text" inputmode="numeric" spellcheck="false"
+        class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-shopee/50 focus:border-shopee transition"
+        placeholder="e.g. 14312450026" />
+      <p class="mt-2 text-xs text-gray-400">Find it after <code class="font-mono">utm_source=an_</code> in any link generated from your affiliate dashboard.</p>
+      <button id="saveSettings" class="mt-4 w-full bg-shopee hover:bg-shopee-dark transition text-white font-bold rounded-xl py-3">Save</button>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="fixed top-4 inset-x-0 z-50 flex flex-col items-center gap-2 pointer-events-none"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
