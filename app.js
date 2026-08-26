@@ -1,5 +1,4 @@
 const AFFILIATE_ID = '14312450026';
-const STORAGE_KEY = 'shopee_affiliate_id';
 
 const TRACKING_PARAMS = new Set([
   'spm', 'xptdk', 'xpt', 'sccid', 'smtt', 'uls_trackid', 'uls_click_id',
@@ -9,15 +8,6 @@ const TRACKING_PARAMS = new Set([
   'af_force_deeplink', 'pid', 'is_retargeting', 'deep_and_deferred',
   'c', 'ctt', 'clickid', 'sub_id', 'share_id', 'referral_code',
 ]);
-
-function getAffiliateId() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved && saved.trim() ? saved.trim() : AFFILIATE_ID;
-  } catch (e) {
-    return AFFILIATE_ID;
-  }
-}
 
 function normalize(raw) {
   const text = String(raw || '').trim();
@@ -71,7 +61,7 @@ function classifyAndBuild(raw) {
     }
   }
 
-  const id = getAffiliateId();
+  const id = AFFILIATE_ID;
   const qs = new URLSearchParams({
     utm_source: 'an_' + id,
     utm_medium: 'affiliates',
@@ -107,7 +97,7 @@ function parseInput(text) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { AFFILIATE_ID, classifyAndBuild, parseInput, getAffiliateId };
+  module.exports = { AFFILIATE_ID, classifyAndBuild, parseInput };
 }
 
 if (typeof document !== 'undefined') {
@@ -122,10 +112,6 @@ function init() {
   const stickyBar = $('#stickyBar');
   const countEl = $('#count');
   const copyAllBtn = $('#copyAll');
-  const settingsModal = $('#settingsModal');
-  const affiliateInput = $('#affiliateId');
-  const saveSettingsBtn = $('#saveSettings');
-  const openSettingsBtn = $('#openSettings');
   const toastContainer = $('#toastContainer');
 
   let validResults = [];
@@ -252,36 +238,5 @@ function init() {
     } catch (err) {
       showToast('Could not copy.', 'error');
     }
-  });
-
-  function openSettings() {
-    affiliateInput.value = getAffiliateId();
-    settingsModal.classList.remove('hidden');
-  }
-
-  function closeSettings() {
-    settingsModal.classList.add('hidden');
-  }
-
-  openSettingsBtn.addEventListener('click', openSettings);
-  settingsModal.addEventListener('click', (e) => {
-    if (e.target.hasAttribute('data-close-settings')) closeSettings();
-  });
-  saveSettingsBtn.addEventListener('click', () => {
-    const val = affiliateInput.value.trim();
-    try {
-      if (val) {
-        localStorage.setItem(STORAGE_KEY, val);
-      } else {
-        localStorage.removeItem(STORAGE_KEY);
-      }
-    } catch (err) {
-      /* storage unavailable — ignoring */
-    }
-    closeSettings();
-    showToast('Affiliate ID saved');
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeSettings();
   });
 }

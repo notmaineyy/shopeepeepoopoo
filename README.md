@@ -22,10 +22,7 @@ index.html   — layout, Tailwind CDN, design
 style.css    — custom animations and polish
 app.js       — URL parsing + UI logic (affiliate ID constant at top)
 ```
-
-## Changing your Affiliate ID
-
-Open the gear icon in the top-right and edit the ID. It's saved to `localStorage` and overrides the default (`14312450026`) hardcoded in `app.js`.
+The affiliate ID (`14312450026`) is fixed and hardcoded in `app.js` — users only paste links and get converted links back; they can't change the ID.
 
 ## Deploy (free)
 
